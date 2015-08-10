@@ -2,7 +2,9 @@
 
 import argparse
 import numpy as np
+import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
+import copy
 import json
 import os
 import sys
@@ -23,59 +25,97 @@ import sys
     ]
 """
 
+def getBrowserNames(jsonRoot):
+    browserNamesToReturn = []
+
+    for browserName in jsonRoot["browsers"]:
+        browserNamesToReturn.append(browserName)
+
+    return browserNamesToReturn
+
+def getTestCaseNameList(jsonRoot):
+    testCaseNamesToReturn = []
+
+    for browserName in jsonRoot["browsers"]:
+        for suite in jsonRoot["browsers"][browserName]["suites"]:
+            caseName = suite["result_name"]
+
+            for case in suite["results"][0]:
+                testCaseNamesToReturn.append(case[caseName])
+        break
+
+    return testCaseNamesToReturn
+
+def getTestCaseValueLists(jsonRoot):
+    testCaseValueLists = []
+
+    for browserName in jsonRoot["browsers"]:
+        testCaseValueList = []
+        for suite in jsonRoot["browsers"][browserName]["suites"]:
+            testCaseResultValueName = suite["result_value"]
+
+            # FIXME Only take one results currenttly
+            for result in suite["results"]:
+                for case in result:
+                    testCaseValueList.append(case[testCaseResultValueName])
+                break
+        testCaseValueLists.append(testCaseValueList)
+
+    return testCaseValueLists
+
+def getTestCaseResultRatioLists(testCaseResultLists):
+    testCaseResultListsToReturn = []
+    numberOfCase = len(testCaseResultLists[0])
+
+    for testCaseResultList in testCaseResultLists[1:]:
+        ratio = []
+        for i in range(0, numberOfCase):
+            ratio.append(testCaseResultList[i] /
+                                               testCaseResultLists[0][i])
+        testCaseResultListsToReturn.append(ratio.copy())
+
+    return testCaseResultListsToReturn
+
 def cli(args):
     parser = argparse.ArgumentParser()
     parser.add_argument('files', metavar='N', type=str, nargs='+',
                         help='an file for the visualization')
     args = parser.parse_args()
 
-    sources = []
-    for file in args.files:
-        with open(file) as fp:
-                source = json.load(fp)
-                sources.append(source)
+    jsonResultRoot = []
+    with open(args.files[0]) as fp:
+            jsonResultRoot = json.load(fp)
 
-    width = 0.2
+    width = 0.3
     fig, ax = plt.subplots()
-    caseNameList = []
-    caseValueLists = []
 
-    for browserName in sources[0]["browsers"]:
-        for suite in sources[0]["browsers"][browserName]["suites"]:
-            caseName = suite["result_name"]
-
-            for result in suite["results"]:
-                for case in result:
-                    caseNameList.append(case[caseName])
-                break
-            break
-        break
-
-    for source in sources:
-        for browserName in source["browsers"]:
-            caseValueList = []
-            for suite in source["browsers"][browserName]["suites"]:
-                caseValue = suite["result_value"]
-
-                for result in suite["results"]:
-                    for case in result:
-                        caseValueList.append(case[caseValue])
-            caseValueLists.append(caseValueList)
-
+    # Get neede propertiese from resultDict
+    browserNameList = getBrowserNames(jsonResultRoot)
+    caseNameList = getTestCaseNameList(jsonResultRoot)
+    caseValueLists = getTestCaseValueLists(jsonResultRoot)
     numberOfCase = len(caseNameList)
     ind = np.arange(numberOfCase)  # the x locations for the groups
+    ratios = getTestCaseResultRatioLists(caseValueLists)
 
-    ratios = []
-    for caseValueList in caseValueLists[1:]:
-        for i in range(0, numberOfCase):
-            ratios.append(caseValueList[i] / caseValueLists[0][i])
+    # Draw bars
+    ax.bar(ind, np.ones(numberOfCase), width, color='#fc9937')
+    for ratio in ratios:
+        ax.bar(ind+width, ratio, width, color='#318ff9')
 
-    refRects = ax.bar(ind, np.ones(numberOfCase), width, color='g')
-    rects = ax.bar(ind+width, ratios, width, color='r')
+    # Draw legends
+    legendPatches = []
+    name_patch = mpatches.Patch(color='#fc9937', label=browserNameList[0])
+    legendPatches.append(name_patch)
+
+    for browser in browserNameList[1:]:
+        name_patch = mpatches.Patch(color='#318ff9', label=browser)
+        legendPatches.append(name_patch)
+
+    plt.legend(handles=legendPatches)
 
     # add some text for labels, title and axes ticks
-    ax.set_title('Scores by group and gender')
-    ax.set_ylabel('Scores')
+    ax.set_title('Performance benchmark result')
+    ax.set_ylabel('Score ratio')
     ax.set_xticks(ind+width)
     ax.set_xticklabels(caseNameList, rotation=80)
 
