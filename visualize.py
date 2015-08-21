@@ -37,11 +37,15 @@ def getTestCaseNameList(jsonRoot):
     testCaseNamesToReturn = []
 
     for browserName in jsonRoot["browsers"]:
-        for suite in jsonRoot["browsers"][browserName]["suites"]:
-            caseName = suite["result_name"]
+        browser = jsonRoot["browsers"][browserName]
 
-            for case in suite["results"][0]:
-                testCaseNamesToReturn.append(case[caseName])
+        for benchmarkName in browser["benchmarks"]:
+            benchmark = browser["benchmarks"][benchmarkName]
+            resultName = benchmark["resultName"]
+
+            for singleCase in benchmark["results"][0]:
+                testCaseNamesToReturn.append(singleCase[resultName])
+            break
         break
 
     return testCaseNamesToReturn
@@ -50,15 +54,19 @@ def getTestCaseValueLists(jsonRoot):
     testCaseValueLists = []
 
     for browserName in jsonRoot["browsers"]:
+        browser = jsonRoot["browsers"][browserName]
         testCaseValueList = []
-        for suite in jsonRoot["browsers"][browserName]["suites"]:
-            testCaseResultValueName = suite["result_value"]
 
-            # FIXME Only take one results currenttly
-            for result in suite["results"]:
-                for case in result:
-                    testCaseValueList.append(case[testCaseResultValueName])
+        for benchmarkName in browser["benchmarks"]:
+            benchmark = browser["benchmarks"][benchmarkName]
+            resultValueName = benchmark["resultValueName"]
+
+            for result in benchmark["results"]:
+                # TODO Only handle one result value currentlly
+                for singleCase in result:
+                    testCaseValueList.append(singleCase[resultValueName])
                 break
+
         testCaseValueLists.append(testCaseValueList)
 
     return testCaseValueLists
@@ -70,8 +78,7 @@ def getTestCaseResultRatioLists(testCaseResultLists):
     for testCaseResultList in testCaseResultLists[1:]:
         ratio = []
         for i in range(0, numberOfCase):
-            ratio.append(testCaseResultList[i] /
-                                               testCaseResultLists[0][i])
+            ratio.append(testCaseResultList[i] / testCaseResultLists[0][i])
         testCaseResultListsToReturn.append(ratio.copy())
 
     return testCaseResultListsToReturn
