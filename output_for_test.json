@@ -1,0 +1,99 @@
+{
+  "platform": "android",
+  "browsers": {
+    "firefox.nightly": {
+      "version": "39.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "mockTest",
+                "value": 1
+              },
+              {
+                "name": "mockTest2",
+                "value": 2
+              }
+            ],
+	    [
+              {
+                "name": "mockTest",
+                "value": 1
+              },
+              {
+                "name": "mockTest2",
+                "value": 2
+              }
+	    ]
+          ]
+        }
+      }
+    },
+    "android-browser": {
+      "version": "39.0.0.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "mockTest",
+                "value": 3
+              },
+              {
+                "name": "mockTest2",
+                "value": 4
+              }
+            ],
+	    [
+              {
+                "name": "mockTest",
+                "value": 3
+              },
+              {
+                "name": "mockTest2",
+                "value": 4
+              }
+	    ]
+          ]
+        }
+      }
+    },
+    "mock-browser": {
+      "version": "39.0.0.0", "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "mockTest",
+                "value": 5
+              },
+              {
+                "name": "mockTest2",
+                "value": 6
+              }
+            ],
+	    [
+              {
+                "name": "mockTest",
+                "value": 5
+              },
+              {
+                "name": "mockTest2",
+                "value": 6
+              }
+	    ]
+          ]
+        }
+      }
+    }
+  },
+  "processor": "armeabi-v7a",
+  "os_version": "5.1.1"
+}
