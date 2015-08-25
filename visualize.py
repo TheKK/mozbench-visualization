@@ -28,17 +28,17 @@ from resultReader import ResultReader
     ]
 """
 
-def getTestCaseResultRatioLists(testCaseResultLists):
-    testCaseResultListsToReturn = []
-    numberOfCase = len(testCaseResultLists[0])
+def get_test_case_result_ratio_lists(test_case_result_lists):
+    test_case_result_listsToReturn = []
+    number_of_case = len(test_case_result_lists[0])
 
-    for testCaseResultList in testCaseResultLists:
+    for test_case_result_list in test_case_result_lists:
         ratio = []
-        for i in range(0, numberOfCase):
-            ratio.append(testCaseResultList[i] / testCaseResultLists[0][i])
-        testCaseResultListsToReturn.append(ratio.copy())
+        for i in range(0, number_of_case):
+            ratio.append(test_case_result_list[i] / test_case_result_lists[0][i])
+        test_case_result_listsToReturn.append(ratio.copy())
 
-    return testCaseResultListsToReturn
+    return test_case_result_listsToReturn
 
 def cli(args):
     parser = argparse.ArgumentParser()
@@ -54,61 +54,61 @@ def cli(args):
     fig.subplots_adjust(left=0.2)
 
     # Get needed propertiese from resultDict
-    browserNameList = result_reader.getBrowserNames()
-    caseNameList = result_reader.getTestCaseNameList()
-    caseValueLists = result_reader.getTestCaseValueLists()
-    numberOfCase = len(caseNameList)
-    ind = np.arange(numberOfCase)  # the x locations for the groups
-    resultRatiosList = getTestCaseResultRatioLists(caseValueLists)
+    browser_name_list = result_reader.get_browser_names()
+    case_name_list = result_reader.get_test_case_name_list()
+    case_value_lists = result_reader.get_test_case_value_lists()
+    number_of_case = len(case_name_list)
+    ind = np.arange(number_of_case)  # the x locations for the groups
+    result_ratios_list = get_test_case_result_ratio_lists(case_value_lists)
 
-    print(browserNameList)
-    print(caseNameList)
-    print(caseValueLists)
+    print(browser_name_list)
+    print(case_name_list)
+    print(case_value_lists)
 
     # Set up bar colors
-    barColorList = []
-    for i in range(0, len(browserNameList)):
-        barColorList.append("#" + "%.6x" % random.randrange(0, 256 ** 3))
+    bar_color_list = []
+    for i in range(0, len(browser_name_list)):
+        bar_color_list.append("#" + "%.6x" % random.randrange(0, 256 ** 3))
 
     # Draw bars
-    resultRectsList = []
-    for index in range(0, len(resultRatiosList)):
-        ratios = resultRatiosList[index]
-        color = barColorList[index]
+    result_rects_list = []
+    for index in range(0, len(result_ratios_list)):
+        ratios = result_ratios_list[index]
+        color = bar_color_list[index]
         rects = ax.barh(ind + width * (index + 1), ratios, width, color=color)
-        resultRectsList.append(rects)
+        result_rects_list.append(rects)
 
     # Draw legends
-    legendPatches = []
-    for index in range(0, len(browserNameList)):
-        color = barColorList[index]
-        browser = browserNameList[index]
+    legend_patches = []
+    for index in range(0, len(browser_name_list)):
+        color = bar_color_list[index]
+        browser = browser_name_list[index]
         name_patch = mpatches.Patch(color=color, label=browser)
-        legendPatches.append(name_patch)
+        legend_patches.append(name_patch)
 
-    plt.legend(handles=legendPatches)
+    plt.legend(handles=legend_patches)
 
     # Add value on top of bars
-    for browserIndex in range(0, len(resultRatiosList)):
-        ratio = resultRatiosList[browserIndex]
-        rects = resultRectsList[browserIndex]
+    for browser_index in range(0, len(result_ratios_list)):
+        ratio = result_ratios_list[browser_index]
+        rects = result_rects_list[browser_index]
 
-        for benchmarkIndex in range(0, numberOfCase):
-            rect = rects[benchmarkIndex]
-            valueStr = "%.3f" % ratio[benchmarkIndex]
-            fontSize = rect.get_height() * 40
+        for benchmark_index in range(0, number_of_case):
+            rect = rects[benchmark_index]
+            value_str = "%.3f" % ratio[benchmark_index]
+            font_size = rect.get_height() * 40
             xloc = rect.get_width() * 0.95
             yloc = rect.get_y() + rect.get_height() / 2.0
 
-            ax.text(xloc, yloc, valueStr, horizontalalignment="right",
+            ax.text(xloc, yloc, value_str, horizontalalignment="right",
                     verticalalignment='center', color="white", weight='bold',
-                    size=fontSize)
+                    size=font_size)
 
     # add some text for labels, title and axes ticks
     ax.set_title('Performance benchmark result')
     ax.set_xlabel('Score ratio')
-    ax.set_yticks(ind + width * (len(resultRatiosList) + 1) / 2.0)
-    ax.set_yticklabels(caseNameList)
+    ax.set_yticks(ind + width * (len(result_ratios_list) + 1) / 2.0)
+    ax.set_yticklabels(case_name_list)
 
     plt.show()
 
