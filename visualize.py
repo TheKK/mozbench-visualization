@@ -48,7 +48,7 @@ def cli(args):
 
     result_reader = ResultReader(args.files[0])
 
-    width = 0.3
+    width = 0.2
     fig, ax = plt.subplots()
 
     fig.subplots_adjust(left=0.2)
@@ -61,10 +61,6 @@ def cli(args):
     ind = np.arange(number_of_case)  # the x locations for the groups
     result_ratios_list = get_test_case_result_ratio_lists(case_value_lists)
 
-    print(browser_name_list)
-    print(case_name_list)
-    print(case_value_lists)
-
     # Set up bar colors
     bar_color_list = []
     for i in range(0, len(browser_name_list)):
@@ -75,13 +71,13 @@ def cli(args):
     for index in range(0, len(result_ratios_list)):
         ratios = result_ratios_list[index]
         color = bar_color_list[index]
-        rects = ax.barh(ind + width * (index + 1), ratios, width, color=color)
+        rects = ax.barh(ind + width * index, ratios, width, color=color)
         result_rects_list.append(rects)
 
     # Draw legends
     legend_patches = []
     for index in range(0, len(browser_name_list)):
-        color = bar_color_list[index]
+        color = bar_color_list[len(browser_name_list) - index - 1]
         browser = browser_name_list[index]
         name_patch = mpatches.Patch(color=color, label=browser)
         legend_patches.append(name_patch)
@@ -107,7 +103,7 @@ def cli(args):
     # add some text for labels, title and axes ticks
     ax.set_title('Performance benchmark result')
     ax.set_xlabel('Score ratio')
-    ax.set_yticks(ind + width * (len(result_ratios_list) + 1) / 2.0)
+    ax.set_yticks(ind + width * len(result_ratios_list) / 2.0)
     ax.set_yticklabels(case_name_list)
 
     plt.show()
