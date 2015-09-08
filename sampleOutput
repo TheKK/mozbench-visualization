@@ -1,0 +1,123 @@
+{
+  "platform": "android",
+  "browsers": {
+    "firefox.nightly": {
+      "version": "39.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "objectInstancing",
+                "value": 417
+              },
+              {
+                "name": "ShaderCompile",
+                "value": 1.941
+              },
+              {
+                "name": "TextureLoading",
+                "value": 0.09595000000000001
+              },
+              {
+                "name": "TextureLoadingWithoutNoMipmap",
+                "value": 0.06565
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "mock-firefox.nightly": {
+      "version": "39.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "objectInstancing",
+                "value": 417
+              },
+              {
+                "name": "ShaderCompile",
+                "value": 1.941
+              },
+              {
+                "name": "TextureLoading",
+                "value": 0.09595000000000001
+              },
+              {
+                "name": "TextureLoadingWithoutNoMipmap",
+                "value": 0.06565
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "android-browser": {
+      "version": "39.0.0.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "objectInstancing",
+                "value": 374
+              },
+              {
+                "name": "ShaderCompile",
+                "value": 1.909
+              },
+              {
+                "name": "TextureLoading",
+                "value": 0.22605
+              },
+              {
+                "name": "TextureLoadingWithoutNoMipmap",
+                "value": 0.21815
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "mock-android-browser": {
+      "version": "39.0.0.0",
+      "benchmarks": {
+        "simpleWebBenchmarks": {
+          "resultValueName": "value",
+          "resultName": "name",
+          "results": [
+            [
+              {
+                "name": "objectInstancing",
+                "value": 374
+              },
+              {
+                "name": "ShaderCompile",
+                "value": 1.909
+              },
+              {
+                "name": "TextureLoading",
+                "value": 0.22605
+              },
+              {
+                "name": "TextureLoadingWithoutNoMipmap",
+                "value": 0.21815
+              }
+            ]
+          ]
+        }
+      }
+    }
+  },
+  "processor": "armeabi-v7a",
+  "os_version": "5.1.1"
+}
