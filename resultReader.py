@@ -23,7 +23,7 @@ class ResultReader(object):
 
             for benchmark_name in browser["benchmarks"]:
                 benchmark = browser["benchmarks"][benchmark_name]
-                result_name = benchmark["resultName"]
+                result_name = benchmark["result_name"]
 
                 for single_case in benchmark["results"][0]:
                     test_case_names_to_return.append(single_case[result_name])
@@ -41,7 +41,7 @@ class ResultReader(object):
 
             for benchmark_name in browser["benchmarks"]:
                 benchmark = browser["benchmarks"][benchmark_name]
-                result_value_name = benchmark["resultValueName"]
+                result_value_name = benchmark["result_value_name"]
                 num_of_run = len(benchmark["results"])
                 result_list = [0] * len(benchmark["results"][0])
 
