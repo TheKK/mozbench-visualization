@@ -5,8 +5,8 @@
       "version": "39.0",
       "benchmarks": {
         "simpleWebBenchmarks": {
-          "resultValueName": "value",
-          "resultName": "name",
+          "result_value_name": "value",
+          "result_name": "name",
           "results": [
             [
               {
@@ -34,8 +34,8 @@
       "version": "39.0",
       "benchmarks": {
         "simpleWebBenchmarks": {
-          "resultValueName": "value",
-          "resultName": "name",
+          "result_value_name": "value",
+          "result_name": "name",
           "results": [
             [
               {
@@ -63,8 +63,8 @@
       "version": "39.0.0.0",
       "benchmarks": {
         "simpleWebBenchmarks": {
-          "resultValueName": "value",
-          "resultName": "name",
+          "result_value_name": "value",
+          "result_name": "name",
           "results": [
             [
               {
@@ -92,8 +92,8 @@
       "version": "39.0.0.0",
       "benchmarks": {
         "simpleWebBenchmarks": {
-          "resultValueName": "value",
-          "resultName": "name",
+          "result_value_name": "value",
+          "result_name": "name",
           "results": [
             [
               {
