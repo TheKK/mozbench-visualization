@@ -12,22 +12,6 @@ import sys
 
 from resultReader import ResultReader
 
-"""
-    @return list
-    [
-     { browserName,
-       browserVersion,
-       results : [
-                  { benchmarkName,
-                    reaultValue
-                  },
-                  ...
-                 ]
-     },
-     ...
-    ]
-"""
-
 def get_test_case_result_ratio_lists(test_case_result_lists):
     test_case_result_listsToReturn = []
     number_of_case = len(test_case_result_lists[0])
@@ -35,7 +19,9 @@ def get_test_case_result_ratio_lists(test_case_result_lists):
     for test_case_result_list in test_case_result_lists:
         ratio = []
         for i in range(0, number_of_case):
-            ratio.append(test_case_result_list[i] / test_case_result_lists[0][i])
+            # Since python 2.X behave like C, we cast value to float for safe
+            ratio.append(test_case_result_list[i] /
+                         float(test_case_result_lists[0][i]))
         test_case_result_listsToReturn.append(copy.copy(ratio))
 
     return test_case_result_listsToReturn
