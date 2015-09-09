@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python2
 
 import argparse
 import random
@@ -36,7 +36,7 @@ def get_test_case_result_ratio_lists(test_case_result_lists):
         ratio = []
         for i in range(0, number_of_case):
             ratio.append(test_case_result_list[i] / test_case_result_lists[0][i])
-        test_case_result_listsToReturn.append(ratio.copy())
+        test_case_result_listsToReturn.append(copy.copy(ratio))
 
     return test_case_result_listsToReturn
 
