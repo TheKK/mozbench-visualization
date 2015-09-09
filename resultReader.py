@@ -7,6 +7,9 @@ class ResultReader(object):
         with open(filePath) as fp:
             self._json_root = json.load(fp)
 
+    def get_os_name(self):
+        return self._json_root["platform"]
+
     def get_browser_names(self):
         browser_names_to_return = []
 
